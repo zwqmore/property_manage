@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 基于@Aspect切面的驱动器 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <!--配置视图解析器，这样控制器里就直接返回文件名就好了-->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        &lt;!&ndash;前缀&ndash;&gt;
+        <property name="prefix" value="/WEB-INF/"/>
+        &lt;!&ndash;后缀&ndash;&gt;
+        <property name="suffix" value=".html"/>
+    </bean>-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--前缀-->
+        <property name="prefix" value="/WEB-INF/page/"/>
+        <!--后缀-->
+        <property name="suffix" value=".html"/>
+    </bean>
+
+    <!--配置静态资源过滤，不然静态资源比如css是访问不到的-->
+    <mvc:default-servlet-handler/>
+
+    <!-- 处理静态资源文件的访问 -->
+    <mvc:resources mapping="/api/**" location="/WEB-INF/api/" />
+    <mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
+    <mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
+    <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
+    <mvc:resources mapping="/lib/**" location="/WEB-INF/lib/" />
+    <!-- 添加前台页面访问路径 -->
+
+    <mvc:view-controller path="/welcome" view-name="/welcome" />
+    <mvc:view-controller path="/404" view-name="/404" />
+    <mvc:view-controller path="/icon" view-name="/icon" />
+    <mvc:view-controller path="/login" view-name="/login" />
+    <mvc:view-controller path="/user-password" view-name="/user-password" />
+    <mvc:view-controller path="/user-setting" view-name="/user-setting" />
+    <mvc:view-controller path="/index" view-name="/index" />
+    <mvc:view-controller path="/userList" view-name="/userList" />
+    <mvc:view-controller path="/villageList" view-name="/villageList" />
+    <mvc:view-controller path="/deviceList" view-name="/deviceList" />
+    <mvc:view-controller path="/addUser" view-name="/addUser" />
+    <mvc:view-controller path="/addVillage" view-name="/addVillage" />
+    <mvc:view-controller path="/addDevice" view-name="/addDevice" />
+    <mvc:view-controller path="/editUser" view-name="/editUser" />
+    <mvc:view-controller path="/editVillage" view-name="/editVillage" />
+    <mvc:view-controller path="/editDevice" view-name="/editDevice" />
+
+    <!--<mvc:view-controller path="/login" view-name="/login" />
+    <mvc:view-controller path="/main" view-name="/main" />-->
+    <!-- <mvc:view-controller path="/login" view-name="/login" /> -->
+    <!--<mvc:view-controller path="/notfound" view-name="/404" />
+    <mvc:view-controller path="/noauth" view-name="/403" />-->
+
+    <!--配置扫描的包-->
+    <context:component-scan base-package="com.zwq.ssm.controller" use-default-filters="false">
+        <!--只扫描controller,实际开发中最好用这种方式来写，这边MVC就只扫描controller，就不会IOC那边冲突，否则事务会被覆盖，IOC那边就要排除这个controller-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--启用MVC的注解-->
+    <mvc:annotation-driven/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+</beans>

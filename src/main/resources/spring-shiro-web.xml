@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/mvc
+    		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <!-- Shiro的web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"></property>
+        <!--登录页面 如果没有登录 访问项目的方法或页面 直接跳转到这个页面 -->
+        <property name="loginUrl" value="/index"></property>
+        <!--登录后 在访问没有经过授权的方法或页面时 直接跳转到这个页面 -->
+        <property name="unauthorizedUrl" value="/index"></property>
+        <!--<property name="filters">
+            <map>
+                <entry key="authc" value-ref="loginCheckPermissionFilter"></entry>
+            </map>
+        </property>-->
+        <property name="filterChainDefinitions">
+            <value>
+                /api/** = anon
+                /css/** = anon
+                /images/** = anon
+                /js/** = anon
+                /lib/** = anon
+                /index = anon
+                /login = anon
+                /updateUser = anon
+                /unauthorized = anon
+                /user/checkLogin = anon
+                /user/queryUserInfo = authc
+                /user/logout = anon
+                /pubApi/** = anon
+                /=anon
+            </value>
+        </property>
+    </bean>
+
+    <!-- 自定义realm -->
+    <bean id="realm" class="com.zwq.ssm.shiro.CustomShiroRealm">
+    </bean>
+
+    <bean id="authenticator" class="com.zwq.ssm.shiro.CustomModularRealmAuthenticator">
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy" />
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="authenticator" ref="authenticator"/>
+        <property name="realm" ref="realm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000" />
+        <property name="deleteInvalidSessions" value="true" />
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <property name="sessionDAO" ref="sessionDao" />
+        <!-- <property name="sessionIdCookie" ref="sessionIdCookie" /> -->
+    </bean>
+
+    <bean id="sessionDao" class="com.zwq.ssm.shiro.RedisSessionDao">
+        <property name="jedisManager" ref="jedisManager" />
+    </bean>
+
+    <!-- 配置缓存管理器 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwq.ssm.mapper.DeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.zwq.ssm.pojo.Device" >
+    <id column="device_id" property="deviceId" jdbcType="INTEGER" />
+    <result column="device_type" property="deviceType" jdbcType="TINYINT" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="device_desc" property="deviceDesc" jdbcType="VARCHAR" />
+    <result column="device_status" property="deviceStatus" jdbcType="TINYINT" />
+    <result column="device_phone" property="devicePhone" jdbcType="VARCHAR" />
+    <result column="device_version" property="deviceVersion" jdbcType="VARCHAR" />
+    <result column="device_village_id" property="deviceVillageId" jdbcType="INTEGER" />
+    <result column="device_unit_id" property="deviceUnitId" jdbcType="INTEGER" />
+    <result column="device_building_id" property="deviceBuildingId" jdbcType="INTEGER" />
+    <result column="device_floor_id" property="deviceFloorId" jdbcType="INTEGER" />
+    <result column="device_create_time" property="deviceCreateTime" jdbcType="TIMESTAMP" />
+    <result column="device_update_time" property="deviceUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="device_start_time" property="deviceStartTime" jdbcType="TIMESTAMP" />
+    <result column="device_down_time" property="deviceDownTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="com.zwq.ssm.vo.DeviceVO" >
+    <id column="device_id" property="deviceId" jdbcType="INTEGER" />
+    <result column="device_type" property="deviceType" jdbcType="TINYINT" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="device_desc" property="deviceDesc" jdbcType="VARCHAR" />
+    <result column="device_status" property="deviceStatus" jdbcType="TINYINT" />
+    <result column="device_phone" property="devicePhone" jdbcType="VARCHAR" />
+    <result column="device_version" property="deviceVersion" jdbcType="VARCHAR" />
+    <result column="device_village_id" property="deviceVillageId" jdbcType="INTEGER" />
+    <result column="device_unit_id" property="deviceUnitId" jdbcType="INTEGER" />
+    <result column="device_building_id" property="deviceBuildingId" jdbcType="INTEGER" />
+    <result column="device_floor_id" property="deviceFloorId" jdbcType="INTEGER" />
+    <result column="device_create_time" property="deviceCreateTime" jdbcType="TIMESTAMP" />
+    <result column="device_update_time" property="deviceUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="device_start_time" property="deviceStartTime" jdbcType="TIMESTAMP" />
+    <result column="device_down_time" property="deviceDownTime" jdbcType="TIMESTAMP" />
+    <result column="villageName" property="villageName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <!--分页接口-->
+  <sql id="Example_Where_Clause_Alias" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    device_id, device_type, device_name, device_desc, device_status, device_phone, device_version, 
+    device_village_id, device_unit_id, device_building_id, device_floor_id, device_create_time, 
+    device_update_time, device_start_time, device_down_time
+  </sql>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zwq.ssm.pojo.DeviceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByExampleWithPage" resultMap="BaseResultMap" parameterType="com.zwq.ssm.pojo.DeviceExample" >
+    select
+    <if test="example.distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from village
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+
+  <select id="selectVOByExampleWithPage" resultMap="BaseResultMap2" parameterType="com.zwq.ssm.pojo.DeviceExample" >
+    select device.*,village.villageName
+    from device
+    left join village on device.device_village_id = village.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from device
+    where device_id = #{deviceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from device
+    where device_id = #{deviceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zwq.ssm.pojo.DeviceExample" >
+    delete from device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zwq.ssm.pojo.Device" >
+    insert into device (device_id, device_type, device_name, 
+      device_desc, device_status, device_phone, 
+      device_version, device_village_id, device_unit_id, 
+      device_building_id, device_floor_id, device_create_time, 
+      device_update_time, device_start_time, 
+      device_down_time)
+    values (#{deviceId,jdbcType=INTEGER}, #{deviceType,jdbcType=TINYINT}, #{deviceName,jdbcType=VARCHAR}, 
+      #{deviceDesc,jdbcType=VARCHAR}, #{deviceStatus,jdbcType=TINYINT}, #{devicePhone,jdbcType=VARCHAR}, 
+      #{deviceVersion,jdbcType=VARCHAR}, #{deviceVillageId,jdbcType=INTEGER}, #{deviceUnitId,jdbcType=INTEGER}, 
+      #{deviceBuildingId,jdbcType=INTEGER}, #{deviceFloorId,jdbcType=INTEGER}, #{deviceCreateTime,jdbcType=TIMESTAMP}, 
+      #{deviceUpdateTime,jdbcType=TIMESTAMP}, #{deviceStartTime,jdbcType=TIMESTAMP}, 
+      #{deviceDownTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zwq.ssm.pojo.Device" >
+    insert into device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="deviceType != null" >
+        device_type,
+      </if>
+      <if test="deviceName != null" >
+        device_name,
+      </if>
+      <if test="deviceDesc != null" >
+        device_desc,
+      </if>
+      <if test="deviceStatus != null" >
+        device_status,
+      </if>
+      <if test="devicePhone != null" >
+        device_phone,
+      </if>
+      <if test="deviceVersion != null" >
+        device_version,
+      </if>
+      <if test="deviceVillageId != null" >
+        device_village_id,
+      </if>
+      <if test="deviceUnitId != null" >
+        device_unit_id,
+      </if>
+      <if test="deviceBuildingId != null" >
+        device_building_id,
+      </if>
+      <if test="deviceFloorId != null" >
+        device_floor_id,
+      </if>
+      <if test="deviceCreateTime != null" >
+        device_create_time,
+      </if>
+      <if test="deviceUpdateTime != null" >
+        device_update_time,
+      </if>
+      <if test="deviceStartTime != null" >
+        device_start_time,
+      </if>
+      <if test="deviceDownTime != null" >
+        device_down_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="deviceName != null" >
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceDesc != null" >
+        #{deviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceStatus != null" >
+        #{deviceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="devicePhone != null" >
+        #{devicePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVersion != null" >
+        #{deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVillageId != null" >
+        #{deviceVillageId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceUnitId != null" >
+        #{deviceUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceBuildingId != null" >
+        #{deviceBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceFloorId != null" >
+        #{deviceFloorId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceCreateTime != null" >
+        #{deviceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceUpdateTime != null" >
+        #{deviceUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceStartTime != null" >
+        #{deviceStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceDownTime != null" >
+        #{deviceDownTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zwq.ssm.pojo.DeviceExample" resultType="java.lang.Integer" >
+    select count(*) from device
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update device
+    <set >
+      <if test="record.deviceId != null" >
+        device_id = #{record.deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceType != null" >
+        device_type = #{record.deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="record.deviceName != null" >
+        device_name = #{record.deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceDesc != null" >
+        device_desc = #{record.deviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceStatus != null" >
+        device_status = #{record.deviceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.devicePhone != null" >
+        device_phone = #{record.devicePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceVersion != null" >
+        device_version = #{record.deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceVillageId != null" >
+        device_village_id = #{record.deviceVillageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceUnitId != null" >
+        device_unit_id = #{record.deviceUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceBuildingId != null" >
+        device_building_id = #{record.deviceBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceFloorId != null" >
+        device_floor_id = #{record.deviceFloorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceCreateTime != null" >
+        device_create_time = #{record.deviceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deviceUpdateTime != null" >
+        device_update_time = #{record.deviceUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deviceStartTime != null" >
+        device_start_time = #{record.deviceStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deviceDownTime != null" >
+        device_down_time = #{record.deviceDownTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update device
+    set device_id = #{record.deviceId,jdbcType=INTEGER},
+      device_type = #{record.deviceType,jdbcType=TINYINT},
+      device_name = #{record.deviceName,jdbcType=VARCHAR},
+      device_desc = #{record.deviceDesc,jdbcType=VARCHAR},
+      device_status = #{record.deviceStatus,jdbcType=TINYINT},
+      device_phone = #{record.devicePhone,jdbcType=VARCHAR},
+      device_version = #{record.deviceVersion,jdbcType=VARCHAR},
+      device_village_id = #{record.deviceVillageId,jdbcType=INTEGER},
+      device_unit_id = #{record.deviceUnitId,jdbcType=INTEGER},
+      device_building_id = #{record.deviceBuildingId,jdbcType=INTEGER},
+      device_floor_id = #{record.deviceFloorId,jdbcType=INTEGER},
+      device_create_time = #{record.deviceCreateTime,jdbcType=TIMESTAMP},
+      device_update_time = #{record.deviceUpdateTime,jdbcType=TIMESTAMP},
+      device_start_time = #{record.deviceStartTime,jdbcType=TIMESTAMP},
+      device_down_time = #{record.deviceDownTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zwq.ssm.pojo.Device" >
+    update device
+    <set >
+      <if test="deviceType != null" >
+        device_type = #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="deviceName != null" >
+        device_name = #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceDesc != null" >
+        device_desc = #{deviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceStatus != null" >
+        device_status = #{deviceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="devicePhone != null" >
+        device_phone = #{devicePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVersion != null" >
+        device_version = #{deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVillageId != null" >
+        device_village_id = #{deviceVillageId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceUnitId != null" >
+        device_unit_id = #{deviceUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceBuildingId != null" >
+        device_building_id = #{deviceBuildingId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceFloorId != null" >
+        device_floor_id = #{deviceFloorId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceCreateTime != null" >
+        device_create_time = #{deviceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceUpdateTime != null" >
+        device_update_time = #{deviceUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceStartTime != null" >
+        device_start_time = #{deviceStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceDownTime != null" >
+        device_down_time = #{deviceDownTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where device_id = #{deviceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zwq.ssm.pojo.Device" >
+    update device
+    set device_type = #{deviceType,jdbcType=TINYINT},
+      device_name = #{deviceName,jdbcType=VARCHAR},
+      device_desc = #{deviceDesc,jdbcType=VARCHAR},
+      device_status = #{deviceStatus,jdbcType=TINYINT},
+      device_phone = #{devicePhone,jdbcType=VARCHAR},
+      device_version = #{deviceVersion,jdbcType=VARCHAR},
+      device_village_id = #{deviceVillageId,jdbcType=INTEGER},
+      device_unit_id = #{deviceUnitId,jdbcType=INTEGER},
+      device_building_id = #{deviceBuildingId,jdbcType=INTEGER},
+      device_floor_id = #{deviceFloorId,jdbcType=INTEGER},
+      device_create_time = #{deviceCreateTime,jdbcType=TIMESTAMP},
+      device_update_time = #{deviceUpdateTime,jdbcType=TIMESTAMP},
+      device_start_time = #{deviceStartTime,jdbcType=TIMESTAMP},
+      device_down_time = #{deviceDownTime,jdbcType=TIMESTAMP}
+    where device_id = #{deviceId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwq.ssm.mapper.VillageMapper" >
+  <resultMap id="BaseResultMap" type="com.zwq.ssm.pojo.Village" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="villageName" property="villagename" jdbcType="VARCHAR" />
+    <result column="cityId" property="cityid" jdbcType="INTEGER" />
+    <result column="cityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="countyId" property="countyid" jdbcType="INTEGER" />
+    <result column="countyName" property="countyname" jdbcType="VARCHAR" />
+    <result column="streetId" property="streetid" jdbcType="INTEGER" />
+    <result column="streetName" property="streetname" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="vs" property="vs" jdbcType="TINYINT" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+    <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="tuserId" property="tuserid" jdbcType="INTEGER" />
+    <result column="stateId" property="stateid" jdbcType="INTEGER" />
+    <result column="stateName" property="statename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <!--分页接口-->
+  <sql id="Example_Where_Clause_Alias" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, villageName, cityId, cityName, countyId, countyName, streetId, streetName, updateTime, 
+    userId, status, vs, longitude, latitude, contacts, tuserId, stateId, stateName
+  </sql>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zwq.ssm.pojo.VillageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from village
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByExampleWithPage" resultMap="BaseResultMap" parameterType="com.zwq.ssm.pojo.VillageExample" >
+    select
+    <if test="example.distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from village
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause_Alias" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from village
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from village
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zwq.ssm.pojo.VillageExample" >
+    delete from village
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zwq.ssm.pojo.Village" >
+    insert into village (id, villageName, cityId, 
+      cityName, countyId, countyName, 
+      streetId, streetName, updateTime, 
+      userId, status, vs, 
+      longitude, latitude, contacts, 
+      tuserId, stateId, stateName
+      )
+    values (#{id,jdbcType=INTEGER}, #{villagename,jdbcType=VARCHAR}, #{cityid,jdbcType=INTEGER}, 
+      #{cityname,jdbcType=VARCHAR}, #{countyid,jdbcType=INTEGER}, #{countyname,jdbcType=VARCHAR}, 
+      #{streetid,jdbcType=INTEGER}, #{streetname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{vs,jdbcType=TINYINT}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{contacts,jdbcType=VARCHAR}, 
+      #{tuserid,jdbcType=INTEGER}, #{stateid,jdbcType=INTEGER}, #{statename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zwq.ssm.pojo.Village" >
+    insert into village
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="villagename != null" >
+        villageName,
+      </if>
+      <if test="cityid != null" >
+        cityId,
+      </if>
+      <if test="cityname != null" >
+        cityName,
+      </if>
+      <if test="countyid != null" >
+        countyId,
+      </if>
+      <if test="countyname != null" >
+        countyName,
+      </if>
+      <if test="streetid != null" >
+        streetId,
+      </if>
+      <if test="streetname != null" >
+        streetName,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="vs != null" >
+        vs,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="tuserid != null" >
+        tuserId,
+      </if>
+      <if test="stateid != null" >
+        stateId,
+      </if>
+      <if test="statename != null" >
+        stateName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="villagename != null" >
+        #{villagename,jdbcType=VARCHAR},
+      </if>
+      <if test="cityid != null" >
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="countyid != null" >
+        #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="countyname != null" >
+        #{countyname,jdbcType=VARCHAR},
+      </if>
+      <if test="streetid != null" >
+        #{streetid,jdbcType=INTEGER},
+      </if>
+      <if test="streetname != null" >
+        #{streetname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="vs != null" >
+        #{vs,jdbcType=TINYINT},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tuserid != null" >
+        #{tuserid,jdbcType=INTEGER},
+      </if>
+      <if test="stateid != null" >
+        #{stateid,jdbcType=INTEGER},
+      </if>
+      <if test="statename != null" >
+        #{statename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zwq.ssm.pojo.VillageExample" resultType="java.lang.Integer" >
+    select count(*) from village
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update village
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.villagename != null" >
+        villageName = #{record.villagename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityid != null" >
+        cityId = #{record.cityid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityname != null" >
+        cityName = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countyid != null" >
+        countyId = #{record.countyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.countyname != null" >
+        countyName = #{record.countyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.streetid != null" >
+        streetId = #{record.streetid,jdbcType=INTEGER},
+      </if>
+      <if test="record.streetname != null" >
+        streetName = #{record.streetname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.vs != null" >
+        vs = #{record.vs,jdbcType=TINYINT},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contacts != null" >
+        contacts = #{record.contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tuserid != null" >
+        tuserId = #{record.tuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.stateid != null" >
+        stateId = #{record.stateid,jdbcType=INTEGER},
+      </if>
+      <if test="record.statename != null" >
+        stateName = #{record.statename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update village
+    set id = #{record.id,jdbcType=INTEGER},
+      villageName = #{record.villagename,jdbcType=VARCHAR},
+      cityId = #{record.cityid,jdbcType=INTEGER},
+      cityName = #{record.cityname,jdbcType=VARCHAR},
+      countyId = #{record.countyid,jdbcType=INTEGER},
+      countyName = #{record.countyname,jdbcType=VARCHAR},
+      streetId = #{record.streetid,jdbcType=INTEGER},
+      streetName = #{record.streetname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      userId = #{record.userid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      vs = #{record.vs,jdbcType=TINYINT},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      contacts = #{record.contacts,jdbcType=VARCHAR},
+      tuserId = #{record.tuserid,jdbcType=INTEGER},
+      stateId = #{record.stateid,jdbcType=INTEGER},
+      stateName = #{record.statename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zwq.ssm.pojo.Village" >
+    update village
+    <set >
+      <if test="villagename != null" >
+        villageName = #{villagename,jdbcType=VARCHAR},
+      </if>
+      <if test="cityid != null" >
+        cityId = #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        cityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="countyid != null" >
+        countyId = #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="countyname != null" >
+        countyName = #{countyname,jdbcType=VARCHAR},
+      </if>
+      <if test="streetid != null" >
+        streetId = #{streetid,jdbcType=INTEGER},
+      </if>
+      <if test="streetname != null" >
+        streetName = #{streetname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="vs != null" >
+        vs = #{vs,jdbcType=TINYINT},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tuserid != null" >
+        tuserId = #{tuserid,jdbcType=INTEGER},
+      </if>
+      <if test="stateid != null" >
+        stateId = #{stateid,jdbcType=INTEGER},
+      </if>
+      <if test="statename != null" >
+        stateName = #{statename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zwq.ssm.pojo.Village" >
+    update village
+    set villageName = #{villagename,jdbcType=VARCHAR},
+      cityId = #{cityid,jdbcType=INTEGER},
+      cityName = #{cityname,jdbcType=VARCHAR},
+      countyId = #{countyid,jdbcType=INTEGER},
+      countyName = #{countyname,jdbcType=VARCHAR},
+      streetId = #{streetid,jdbcType=INTEGER},
+      streetName = #{streetname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      userId = #{userid,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      vs = #{vs,jdbcType=TINYINT},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      tuserId = #{tuserid,jdbcType=INTEGER},
+      stateId = #{stateid,jdbcType=INTEGER},
+      stateName = #{statename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

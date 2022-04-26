@@ -1,0 +1,202 @@
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">设备名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="deviceName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">小区名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="villageName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <!--<script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            </div>
+        </script>-->
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="js/common.js"></script>
+<script>
+    layui.use(['form', 'table','miniPage','element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            miniPage = layui.miniPage;
+
+        table.render({
+            elem: '#currentTableId',
+            url: hostUrl+'device/getAll',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'deviceId', width: 80, title: 'ID', sort: true},
+                {field: 'deviceName', minWidth: 110, title: '设备名称'},
+                {field: 'deviceDesc', minWidth: 150, title: '设备描述'},
+                {field: 'villageName', width: 110, title: '所属小区'},
+                {field: 'devicePhone', Width: 110, title: '维修电话'},
+                {field: 'deviceVersion', Width: 100, title: '版本'},
+                {field: 'deviceCreateTime', width:180, title: '创建时间',
+                    templet:'<div>{{ layui.util.toDateString(d.deviceCreateTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line'
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            console.log(data.field)
+            /*var result = JSON.stringify(data.field);*/
+            /*layer.alert(result, {
+                title: '最终的搜索信息'
+            });*/
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    /*searchParams: result*/
+                    deviceName: data.field.deviceName,
+                    villageName: data.field.villageName
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar事件监听
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {   // 监听添加操作
+                var content = miniPage.getHrefContent('addUser');
+                var openWH = miniPage.getOpenWidthHeight();
+
+                var index = layer.open({
+                    title: '添加设备',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: [openWH[0] + 'px', openWH[1] + 'px'],
+                    offset: [openWH[2] + 'px', openWH[3] + 'px'],
+                    content: content,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            data.password = '';
+            if (obj.event === 'edit') {
+                console.log('listData:',data)
+                var content = miniPage.getHrefContent('editDevice');
+                var openWH = miniPage.getOpenWidthHeight();
+
+                var index = layer.open({
+                    title: '编辑设备',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: [openWH[0] + 'px', openWH[1] + 'px'],
+                    offset: [openWH[2] + 'px', openWH[3] + 'px'],
+                    content: content,
+                    success:function () {
+                        //表单数据回显
+                        form.val("edit",data);
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除该设备么?', function (index) {
+                    console.log("del:"+data.deviceId)
+                    /*obj.del();*/
+                    $.ajax({
+                        type: 'POST',	//请求的类型,GET、POST等
+                        url: hostUrl+'device/deleteDevice',	//向服务器请求的地址。
+                        data: {
+                            'id': data.deviceId,
+                        },
+                        //contentType: 'application/json',	//向服务器发送内容的类型，默认值是：application/x-www-form-urlencoded application/json
+                        //dataType: 'JSON',	//预期服务器响应类型
+                        async: true,	//默认值是true,表示请求是异步的，false是同步请求，同步请求会阻碍浏览器的其他操作（不建议使用）
+                        timeout: '5000',	//设置本地的请求超时时间（单位是毫秒）
+                        cache: true,	//设置浏览器是否缓存请求的页面
+                        success: function (result, status, XMLHttpRequest) {		//请求成功是执行的函数,result：服务器返回的数据，    status：服务器返回的状态，
+                            console.log('1re:',result)
+                            if(result.code === 0) {
+                                layer.msg('删除成功', {time: 800}, function () {
+                                    table.reload('currentTableId', {})
+                                    layer.close(index);
+                                })
+                            } else {
+                                layer.msg(result.msg, {time: 800}, function () {})
+                            }
+
+                        },
+                        error: function (xhr, status, error) {	//请求失败是执行的函数
+                            console.log('2re:',xhr)
+                            layer.msg("未知错误", {time: 800}, function () {})
+                        },
+                        complete: function (xhr, status) {     //不管请求失败还是请求成功，都执行的函数
+                        }
+                    })
+
+                });
+            }
+        });
+
+    });
+</script>
